@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/RebootJeff/flash-card/issues"
   },
-  "homepage": "https://github.com/RebootJeff/flash-card"
+  "homepage": "https://github.com/RebootJeff/flash-card",
+  "dependencies": {
+    "ramda": "^0.18.0"
+  },
+  "devDependencies": {
+    "browserify": "^11.2.0",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-stylus": "^2.1.0",
+    "gulp-webserver": "^0.9.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
 }
