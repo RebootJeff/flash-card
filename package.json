@@ -1,0 +1,19 @@
+{
+  "name": "flash-card",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"write tests!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RebootJeff/flash-card.git"
+  },
+  "author": "@RebootJeff",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/RebootJeff/flash-card/issues"
+  },
+  "homepage": "https://github.com/RebootJeff/flash-card"
+}
