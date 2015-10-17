@@ -1,0 +1,17 @@
+## Customize the test machine
+machine:
+  timezone:
+    America/Los_Angeles
+
+  ## Add some environment variables
+  # environment:
+  #   varName: varVal
+
+## Customize deployment commands
+# deployment:
+#   production:
+#     branch: master
+#     commands:
+#       - npm install -g firebase-tools
+#       - firebase login -s --email $FIREBASE_USERNAME --password $FIREBASE_PASSWORD
+#       - firebase deploy -s
