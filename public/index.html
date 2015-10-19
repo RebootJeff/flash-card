@@ -5,12 +5,38 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flashcards: Zignal Labs Team</title>
-    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css">
     <link rel="stylesheet" href="main.css">
     <script src="bundle.js" async></script>
   </head>
 
   <body>
+
+    <section class="row center-xs">
+
+      <!-- Flipping reference: http://davidwalsh.name/css-flip -->
+      <div class="flip-container">
+      	<div class="flipper">
+      		<div class="front">
+      			<!-- front content -->
+            front
+      		</div>
+      		<div class="back">
+      			<!-- back content -->
+            back
+      		</div>
+      	</div>
+      </div>
+
+      <aside class="col-xs-6 col-sm-3">
+        <div class="row">
+          <button class="col-xs-6 col-sm-12" onclick="flipCard()">Flip</button>
+          <button class="col-xs-6 col-sm-12">Next</button>
+        </div>
+      </aside>
+
+    </section>
+
 
     <!-- Google Analytics -->
     <script>
