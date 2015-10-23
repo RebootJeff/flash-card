@@ -14,13 +14,13 @@ window.initializeCard = function() {
 };
 
 function makeCardFrontHtml(person) {
-  return '<img class="profile-photo" src="' + person.imgSrc + '">';
+  return '<img class="profile photo" src="' + person.imgSrc + '">';
 }
 
 function makeCardBackHtml(person) {
-  return '<h2>' + person.name + '</h2>' +
-         '<h4>' + person.title + '</h4>' +
-         '<p>' + person.description + '</p>';
+  return '<h2 class="profile name">' + person.name + '</h2>' +
+         '<h4 class="profile title">' + person.title + '</h4>' +
+         '<p class="profile description">' + person.description + '</p>';
 }
 
 initializeCard();

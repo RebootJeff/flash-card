@@ -1,45 +1,21 @@
-body {
-  background-color: black;
-  color: white;
-}
+@require 'core'
+@require 'flipper'
 
-/* entire container, keeps perspective */
-.flip-container {
-	perspective: 1000;
-}
-	/* flip the pane when hovered */
-	.flip-container:hover .flipper, .flip-container.hover .flipper, .flip {
-		transform: rotateY(180deg);
-	}
+.profile {
+  &.photo {
+    border-radius: 0.5rem;
+  }
 
-.flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
-}
+  &.name {
+    margin: 2rem;
+  }
 
-/* flip speed goes here */
-.flipper {
-	position: relative;
-	transition: 0.6s;
-	transform-style: preserve-3d;
-}
+  &.title {
+    margin: 1rem;
+  }
 
-/* hide back of pane during swap */
-.front, .back {
-	backface-visibility: hidden;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-/* front pane, placed above back */
-.front {
-	z-index: 2;
-	/* for firefox 31 */
-	// transform: rotateY(0deg);
-}
-
-/* back, initially hidden pane */
-.back {
-	transform: rotateY(180deg);
+  &.description {
+    padding: 1rem;
+    text-align: left;
+  }
 }
