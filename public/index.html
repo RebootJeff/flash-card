@@ -14,21 +14,21 @@
 
     <section class="row center-xs">
 
-      <!-- Flipping reference: http://davidwalsh.name/css-flip -->
-      <div class="flip-container">
+      <!-- Flash Card -->
+      <div class="flash-card flip-container">
+        <!-- Flipping reference: http://davidwalsh.name/css-flip -->
       	<div class="flipper">
       		<div class="front">
       			<!-- front content -->
-            front
       		</div>
       		<div class="back">
       			<!-- back content -->
-            back
       		</div>
       	</div>
       </div>
 
-      <aside class="col-xs-12 col-sm-3">
+      <!-- Controls -->
+      <aside class="controls col-xs-12 col-sm-3">
         <div class="row center-xs">
           <button class="col-xs-5 col-sm-12" onclick="flipCard()">Flip</button>
           <button class="col-xs-5 col-sm-12" onclick="nextCard()">Next</button>
@@ -37,6 +37,21 @@
 
     </section>
 
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+      WebFontConfig = {
+        google: { families: [ 'Montserrat:400,700:latin' ] }
+      };
+      (function() {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+          '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+      })();
+    </script>
 
     <!-- Google Analytics -->
     <script>

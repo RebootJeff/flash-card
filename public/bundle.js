@@ -5,26 +5,38 @@ var $flipContainer = document.querySelector('.flipper');
 var $cardFront = document.querySelector('.front');
 var $cardBack = document.querySelector('.back');
 
+var index = 0;
+
+window.nextCard = function() {
+  index = getNextIndex(index, data);
+  renderCard(data[index]);
+}
+
+function getNextIndex(currentIndex, arr) {
+  var nextIndex = currentIndex + 1;
+  return (nextIndex >= arr.length) ? 0 : nextIndex;
+}
+
 window.flipCard = function() {
   $flipContainer.classList.toggle('flip');
 };
 
-window.initializeCard = function() {
-  $cardFront.innerHTML = makeCardFrontHtml(data[0]);
-  $cardBack.innerHTML = makeCardBackHtml(data[0]);
-};
+function renderCard(person) {
+  $cardFront.innerHTML = makeCardFrontHtml(person);
+  $cardBack.innerHTML = makeCardBackHtml(person);
+}
 
 function makeCardFrontHtml(person) {
-  return '<img class="profile photo" src="' + person.imgSrc + '">';
+  return '<img class="profile-photo" src="' + person.imgSrc + '">';
 }
 
 function makeCardBackHtml(person) {
-  return '<h2 class="profile name">' + person.name + '</h2>' +
-         '<h4 class="profile title">' + person.title + '</h4>' +
-         '<p class="profile description">' + person.description + '</p>';
+  return '<h2 class="profile-name">' + person.name + '</h2>' +
+         '<h4 class="profile-title">' + person.title + '</h4>' +
+         '<p class="profile-description">' + person.description + '</p>';
 }
 
-initializeCard();
+renderCard(data[index]);
 
 },{"./data":2}],2:[function(require,module,exports){
 module.exports = [
