@@ -27,7 +27,7 @@ function renderCard(person) {
 }
 
 function makeCardFrontHtml(person) {
-  return '<img class="profile-photo" src="' + person.imgSrc + '">';
+  return '<img class="profile-photo" src="' + person.imgSrc + '" alt="profile photo">';
 }
 
 function makeCardBackHtml(person) {
@@ -37,6 +37,10 @@ function makeCardBackHtml(person) {
 }
 
 renderCard(data[index]);
+
+setTimeout(function() {
+  // document.querySelector('.loading-screen').style.display = 'none';
+}, 1000);
 
 },{"./data":2}],2:[function(require,module,exports){
 module.exports = [

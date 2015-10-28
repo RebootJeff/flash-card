@@ -1,8 +1,25 @@
+@require 'animations'
 @require 'colors'
 @require 'typography'
 
 @require 'core'
 @require 'flipper'
+
+.loading-screen {
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  align-items: center;
+  justify-content: center;
+
+  .logo {
+    display: block;
+  }
+}
 
 .flash-card {
   .profile-photo {
