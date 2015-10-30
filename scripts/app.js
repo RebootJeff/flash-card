@@ -1,15 +1,48 @@
-var data = require('./data');
+'use strict';
+
+var DataService = require('./data');
 
 var $flipContainer = document.querySelector('.flipper');
 var $cardFront = document.querySelector('.front');
 var $cardBack = document.querySelector('.back');
 
 var index = 0;
+var teammates;
+
+function initializeApp() {
+  DataService.getZignalTeam()
+    .then(function(result) {
+      // TODO: shuffle result
+      teammates = result;
+      renderCard(teammates[index]);
+      hideLoadingScreen();
+    });
+}
+
+function hideLoadingScreen() {
+  document.querySelector('.loading-screen').style.display = 'none';
+}
+
+function renderCard(person) {
+  $cardFront.innerHTML = makeCardFrontHtml(person);
+  $cardBack.innerHTML = makeCardBackHtml(person);
+}
+
+function makeCardFrontHtml(person) {
+  return '<img class="profile-photo" src="' + person.photoUrl + '" alt="profile photo">';
+}
+
+function makeCardBackHtml(person) {
+  return '<h2 class="profile-name">' + person.name + '</h2>' +
+         '<h4 class="profile-title">' + person.title + '</h4>' +
+         '<p class="profile-blurb">' + person.blurb + '</p>';
+}
+
 
 window.nextCard = function() {
-  index = getNextIndex(index, data);
-  renderCard(data[index]);
-}
+  index = getNextIndex(index, teammates);
+  renderCard(teammates[index]);
+};
 
 function getNextIndex(currentIndex, arr) {
   var nextIndex = currentIndex + 1;
@@ -20,23 +53,4 @@ window.flipCard = function() {
   $flipContainer.classList.toggle('flip');
 };
 
-function renderCard(person) {
-  $cardFront.innerHTML = makeCardFrontHtml(person);
-  $cardBack.innerHTML = makeCardBackHtml(person);
-}
-
-function makeCardFrontHtml(person) {
-  return '<img class="profile-photo" src="' + person.imgSrc + '" alt="profile photo">';
-}
-
-function makeCardBackHtml(person) {
-  return '<h2 class="profile-name">' + person.name + '</h2>' +
-         '<h4 class="profile-title">' + person.title + '</h4>' +
-         '<p class="profile-description">' + person.description + '</p>';
-}
-
-renderCard(data[index]);
-
-setTimeout(function() {
-  // document.querySelector('.loading-screen').style.display = 'none';
-}, 1000);
+initializeApp();

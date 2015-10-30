@@ -1,13 +1,16 @@
 'use strict';
 
-var R = require('ramda');
 var request = require('request-promise');
 var cheerio = require('cheerio');
 
-function mineZignalTeamPage() {
-  return request('http://zignallabs.com/company/#our-team')
+var DataService = {};
+
+DataService.getZignalTeam = function() {
+  // TODO: Running into browser-based CORS problem here
+  // (works fine when testing via Node.js)
+  return request('http://zignallabs.com/company/')
     .then(extractProfilesFromHtml);
-}
+};
 
 function extractProfilesFromHtml(htmlString) {
   var $ = cheerio.load(htmlString);
@@ -44,15 +47,7 @@ function getProfileBlurb($profile) {
   }
 }
 
-module.exports = [
-  {
-    name: 'Jeff Lee',
-    title: 'Software Engineer',
-    category: 'Engineering',
-    description: 'Jeff enjoys writing software, teaching code, blogging about engineering, and tweeting all of the above. He binge-watches black hole documentaries, but remains perplexed by the cosmos.',
-    imgSrc: 'http://zignallabs.com/wp-content/uploads/2015/10/Jeff_Lee.png'
-  }
-];
+module.exports = DataService;
 
 function convertObjToArray(obj) {
   var arr = [];
@@ -64,6 +59,6 @@ function convertObjToArray(obj) {
   return arr;
 }
 
-mineZignalTeamPage().then(function(result) {
+DataService.getZignalTeam().then(function(result) {
   console.log(result);
 });
