@@ -1,43 +1,10 @@
-@require 'animations'
+// Globals
 @require 'colors'
+@require 'animations'
 @require 'typography'
-
 @require 'core'
+
+// Components
+@require 'loading-screen'
 @require 'flipper'
-
-.loading-screen {
-  display: flex;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: black;
-  align-items: center;
-  justify-content: center;
-
-  .logo {
-    display: block;
-  }
-}
-
-.flash-card {
-  .profile-photo {
-    border-radius: 0.3rem;
-  }
-
-  .profile-name {
-    margin-top: 0.5rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .profile-title {
-    margin: 0.5rem;
-  }
-
-  .profile-description {
-    width: 274px;
-    margin: 0.5rem auto;
-    text-align: left;
-  }
-}
+@require 'profiles'
