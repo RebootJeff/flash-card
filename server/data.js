@@ -58,7 +58,3 @@ function convertObjToArray(obj) {
 
   return arr;
 }
-
-DataService.getZignalTeam().then(function(result) {
-  console.log(result);
-});

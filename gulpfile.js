@@ -1,11 +1,11 @@
 'use strict';
 
-var gulp = require('gulp');
 var browserify = require('browserify');
 var del = require('del');
+var gulp = require('gulp');
+var nodemon = require('gulp-nodemon');
 var source = require('vinyl-source-stream');
 var stylus = require('gulp-stylus');
-var webserver = require('gulp-webserver');
 
 
 gulp.task('clean-scripts', function() {
@@ -18,7 +18,7 @@ gulp.task('clean-styles', function() {
 
 gulp.task('build-scripts', ['clean-scripts'], function() {
   return browserify({
-    entries: ['./scripts/app.js']
+    entries: ['./client/scripts/app.js']
   })
   .bundle()
   .pipe(source('bundle.js'))
@@ -31,7 +31,7 @@ gulp.task('build-scripts', ['clean-scripts'], function() {
 });
 
 gulp.task('build-styles', ['clean-styles'], function() {
-  return gulp.src('./styles/main.styl')
+  return gulp.src('./client/styles/main.styl')
     .pipe(stylus({
       compress: true
     }))
@@ -41,16 +41,18 @@ gulp.task('build-styles', ['clean-styles'], function() {
 gulp.task('build', ['build-scripts', 'build-styles']);
 
 gulp.task('watch', ['build'], function() {
-  gulp.watch('./styles/**.styl', ['build-styles']);
-  gulp.watch('./scripts/**.js', ['build-scripts']);
+  gulp.watch('./client/styles/**.styl', ['build-styles']);
+  gulp.watch('./client/scripts/**.js', ['build-scripts']);
 });
 
-gulp.task('run', ['watch'], function() {
-  return gulp.src('public')
-    .pipe(webserver({
-      port: 3000
-    }));
+gulp.task('server', ['build', 'watch'], function() {
+  return nodemon({
+    script: 'server.js'
+  })
+  .on('restart', function() {
+    console.log('Nodemon restarted the server!');
+  });
 });
 
 
-gulp.task('default', ['run']);
+gulp.task('default', ['server']);
