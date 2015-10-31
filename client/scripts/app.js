@@ -1,6 +1,6 @@
 'use strict';
 
-var DataService = require('./data');
+
 
 var $flipContainer = document.querySelector('.flipper');
 var $cardFront = document.querySelector('.front');
@@ -10,13 +10,28 @@ var index = 0;
 var teammates;
 
 function initializeApp() {
-  DataService.getZignalTeam()
-    .then(function(result) {
-      // TODO: shuffle result
-      teammates = result;
-      renderCard(teammates[index]);
-      hideLoadingScreen();
-    });
+  sendGetRequest('/api/teammates', function(result) {
+    // TODO: shuffle result
+    teammates = result;
+    renderCard(teammates[index]);
+    hideLoadingScreen();
+  });
+}
+
+function sendGetRequest(url, success, error) {
+  var request = new XMLHttpRequest();
+
+  request.open('GET', url, true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      success(JSON.parse(request.responseText));
+    } else {
+      // We reached our target server, but it returned an error
+    }
+  };
+
+  request.send();
 }
 
 function hideLoadingScreen() {
@@ -41,7 +56,13 @@ function makeCardBackHtml(person) {
 
 window.nextCard = function() {
   index = getNextIndex(index, teammates);
-  renderCard(teammates[index]);
+  flipCard();
+
+  // FIXME: Card will show next backside before flipping animation finishes
+  // TODO: find a way to address this problem this without setTimeout
+  setTimeout(function() {
+    renderCard(teammates[index]);
+  }, 600);
 };
 
 function getNextIndex(currentIndex, arr) {
