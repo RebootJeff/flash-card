@@ -7,15 +7,6 @@ machine:
   # environment:
   #   varName: varVal
 
-## Firebase Setup
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - npm install -g firebase-tools
-#       - firebase login -s --email $FIREBASE_USERNAME --password $FIREBASE_PASSWORD
-#       - firebase deploy -s
-
 ## Heroku Setup
 deployment:
   production:

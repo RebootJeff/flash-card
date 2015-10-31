@@ -56,6 +56,7 @@ function makeCardBackHtml(person) {
 
 window.nextCard = function() {
   index = getNextIndex(index, teammates);
+  // FIXME: Instead of flipping card, app should ALWAYS return to front-side
   flipCard();
 
   // FIXME: Card will show next backside before flipping animation finishes
