@@ -2,57 +2,56 @@
 'use strict';
 
 // Internal dependencies
-var Utils = require('./utils');
-
-var $flipContainer = document.querySelector('.flipper');
-var $cardFront = document.querySelector('.front');
-var $cardBack = document.querySelector('.back');
-
-var index = 0;
-var teammates;
+var View = require('./view');
+var Model = require('./model');
 
 function initializeApp() {
-  Utils.sendGetRequest('/api/teammates', function(result) {
-    teammates = Utils.shuffle(result);
-    renderCard(teammates[index]);
-    hideLoadingScreen();
+  Model.initialize(function() {
+    View.renderCard(Model.nextTeammate());
+    View.hideLoadingScreen();
   });
 }
 
-function hideLoadingScreen() {
-  document.querySelector('.loading-screen').style.display = 'none';
-}
-
-function renderCard(person) {
-  $cardFront.innerHTML = makeCardFrontHtml(person);
-  $cardBack.innerHTML = makeCardBackHtml(person);
-}
-
-function makeCardFrontHtml(person) {
-  return '<img class="profile-photo" src="' + person.photoUrl + '" alt="profile photo">';
-}
-
-function makeCardBackHtml(person) {
-  return '<h2 class="profile-name">' + person.name + '</h2>' +
-         '<h4 class="profile-title">' + person.title + '</h4>' +
-         '<p class="profile-blurb">' + person.blurb + '</p>';
-}
-
-
 window.nextCard = function() {
   var delay = 0;
-  index = getNextIndex(index, teammates);
 
-  if($flipContainer.classList.contains('flip')) {
-    $flipContainer.classList.remove('flip');
+  if(View.isCardFlipped()) {
+    View.showCardFront();
     delay = 600;
   }
 
   // Card will show next backside before flipping animation finishes
   // TODO: find a way to address this problem this without setTimeout
   setTimeout(function() {
-    renderCard(teammates[index]);
+    View.renderCard(Model.nextTeammate());
   }, delay);
+};
+
+window.flipCard = View.flipCard;
+
+initializeApp();
+
+},{"./model":2,"./view":4}],2:[function(require,module,exports){
+'use strict';
+
+// Internal dependencies
+var Utils = require('./utils');
+
+var Model = {};
+
+var index = -1;
+var teammates = [];
+
+Model.initialize = function(cb) {
+  Utils.sendGetRequest('/api/teammates', function(result) {
+    teammates = Utils.shuffle(result);
+    cb();
+  });
+};
+
+Model.nextTeammate = function() {
+  index = getNextIndex(index, teammates);
+  return teammates[index];
 };
 
 function getNextIndex(currentIndex, arr) {
@@ -60,13 +59,9 @@ function getNextIndex(currentIndex, arr) {
   return (nextIndex >= arr.length) ? 0 : nextIndex;
 }
 
-window.flipCard = function() {
-  $flipContainer.classList.toggle('flip');
-};
+module.exports = Model;
 
-initializeApp();
-
-},{"./utils":2}],2:[function(require,module,exports){
+},{"./utils":3}],3:[function(require,module,exports){
 'use strict';
 
 var Utils = {};
@@ -95,6 +90,64 @@ function swap(i, j, array) {
   array[j] = temp;
 }
 
+Utils.sendGetRequest = function(url, success, error) {
+  var request = new XMLHttpRequest();
+
+  request.open('GET', url, true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      success(JSON.parse(request.responseText));
+    } else {
+      // We reached our target server, but it returned an error
+    }
+  };
+
+  request.send();
+};
+
 module.exports = Utils;
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+var View = {};
+
+var $flipContainer = document.querySelector('.flipper');
+var $cardFront = document.querySelector('.front');
+var $cardBack = document.querySelector('.back');
+
+View.hideLoadingScreen = function() {
+  document.querySelector('.loading-screen').style.display = 'none';
+};
+
+View.renderCard = function(person) {
+  $cardFront.innerHTML = makeCardFrontHtml(person);
+  $cardBack.innerHTML = makeCardBackHtml(person);
+};
+
+function makeCardFrontHtml(person) {
+  return '<img class="profile-photo" src="' + person.photoUrl + '" alt="profile photo">';
+}
+
+function makeCardBackHtml(person) {
+  return '<h2 class="profile-name">' + person.name + '</h2>' +
+         '<h4 class="profile-title">' + person.title + '</h4>' +
+         '<p class="profile-blurb">' + person.blurb + '</p>';
+}
+
+View.flipCard = function() {
+  $flipContainer.classList.toggle('flip');
+};
+
+View.isCardFlipped = function() {
+  return $flipContainer.classList.contains('flip');
+};
+
+View.showCardFront = function() {
+  $flipContainer.classList.remove('flip');
+};
+
+module.exports = View;
 
 },{}]},{},[1]);
