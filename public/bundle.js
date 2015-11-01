@@ -1,7 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-
+// Internal dependencies
+var Utils = require('./utils');
 
 var $flipContainer = document.querySelector('.flipper');
 var $cardFront = document.querySelector('.front');
@@ -11,28 +12,11 @@ var index = 0;
 var teammates;
 
 function initializeApp() {
-  sendGetRequest('/api/teammates', function(result) {
-    // TODO: shuffle result
-    teammates = result;
+  Utils.sendGetRequest('/api/teammates', function(result) {
+    teammates = Utils.shuffle(result);
     renderCard(teammates[index]);
     hideLoadingScreen();
   });
-}
-
-function sendGetRequest(url, success, error) {
-  var request = new XMLHttpRequest();
-
-  request.open('GET', url, true);
-
-  request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-      success(JSON.parse(request.responseText));
-    } else {
-      // We reached our target server, but it returned an error
-    }
-  };
-
-  request.send();
 }
 
 function hideLoadingScreen() {
@@ -56,14 +40,19 @@ function makeCardBackHtml(person) {
 
 
 window.nextCard = function() {
+  var delay = 0;
   index = getNextIndex(index, teammates);
-  flipCard();
 
-  // FIXME: Card will show next backside before flipping animation finishes
+  if($flipContainer.classList.contains('flip')) {
+    $flipContainer.classList.remove('flip');
+    delay = 600;
+  }
+
+  // Card will show next backside before flipping animation finishes
   // TODO: find a way to address this problem this without setTimeout
   setTimeout(function() {
     renderCard(teammates[index]);
-  }, 600);
+  }, delay);
 };
 
 function getNextIndex(currentIndex, arr) {
@@ -76,5 +65,36 @@ window.flipCard = function() {
 };
 
 initializeApp();
+
+},{"./utils":2}],2:[function(require,module,exports){
+'use strict';
+
+var Utils = {};
+
+Utils.shuffle = function(sourceArray) {
+  var shuffledArray = [];
+  var randomIndex;
+
+  sourceArray.forEach(function(element, i) {
+    shuffledArray.push(element);
+
+    randomIndex = getRandomNumber(0, i);
+    swap(i, randomIndex, shuffledArray);
+  });
+
+  return shuffledArray;
+};
+
+function getRandomNumber(lowerBound, upperBound) {
+  return Math.floor(Math.random() * (upperBound - lowerBound + 1)) + lowerBound;
+}
+
+function swap(i, j, array) {
+  var temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+}
+
+module.exports = Utils;
 
 },{}]},{},[1]);

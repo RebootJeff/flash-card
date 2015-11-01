@@ -1,6 +1,7 @@
 'use strict';
 
-
+// Internal dependencies
+var Utils = require('./utils');
 
 var $flipContainer = document.querySelector('.flipper');
 var $cardFront = document.querySelector('.front');
@@ -10,28 +11,11 @@ var index = 0;
 var teammates;
 
 function initializeApp() {
-  sendGetRequest('/api/teammates', function(result) {
-    // TODO: shuffle result
-    teammates = result;
+  Utils.sendGetRequest('/api/teammates', function(result) {
+    teammates = Utils.shuffle(result);
     renderCard(teammates[index]);
     hideLoadingScreen();
   });
-}
-
-function sendGetRequest(url, success, error) {
-  var request = new XMLHttpRequest();
-
-  request.open('GET', url, true);
-
-  request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-      success(JSON.parse(request.responseText));
-    } else {
-      // We reached our target server, but it returned an error
-    }
-  };
-
-  request.send();
 }
 
 function hideLoadingScreen() {
@@ -55,15 +39,19 @@ function makeCardBackHtml(person) {
 
 
 window.nextCard = function() {
+  var delay = 0;
   index = getNextIndex(index, teammates);
-  // FIXME: Instead of flipping card, app should ALWAYS return to front-side
-  flipCard();
 
-  // FIXME: Card will show next backside before flipping animation finishes
+  if($flipContainer.classList.contains('flip')) {
+    $flipContainer.classList.remove('flip');
+    delay = 600;
+  }
+
+  // Card will show next backside before flipping animation finishes
   // TODO: find a way to address this problem this without setTimeout
   setTimeout(function() {
     renderCard(teammates[index]);
-  }, 600);
+  }, delay);
 };
 
 function getNextIndex(currentIndex, arr) {
