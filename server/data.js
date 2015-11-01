@@ -17,12 +17,7 @@ function extractProfilesFromHtml(htmlString) {
   var $profiles = $('.element-team');
   var jsonProfiles = $profiles.map(function(index, profileEl) {
     var $profile = $(profileEl);
-    // extract the following data:
-    // - employee category (get value for root element attr `data-project-cat`)
-    // - img src (CSS selector: attachment-portfolio-thumb)
-    // - employee name (CSS selector: h3 tag)
-    // - employee title (CSS selector: b tag)
-    // - employee blurb (not sure how to select, but comes after a br tag)
+
     return {
       category: $profile.attr('data-project-cat'),
       photoUrl: $profile.find('.attachment-portfolio-thumb').attr('src'),
@@ -47,8 +42,6 @@ function getProfileBlurb($profile) {
   }
 }
 
-module.exports = DataService;
-
 function convertObjToArray(obj) {
   var arr = [];
 
@@ -58,3 +51,5 @@ function convertObjToArray(obj) {
 
   return arr;
 }
+
+module.exports = DataService;
