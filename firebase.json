@@ -1,8 +1,0 @@
-{
-  "firebase": "flashcard",
-  "public": "public",
-  "ignore": [
-    "**/.*",
-    ".DS_STORE"
-  ]
-}
