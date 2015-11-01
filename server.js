@@ -19,6 +19,7 @@ if(config.ENV !== 'production') {
   app.use(morgan('dev')); // log request/response info to console
 }
 
+config.enableSecurityFeatures(app);
 
 // Basic routes
 app.route('/api/teammates')
